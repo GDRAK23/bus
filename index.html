@@ -20,7 +20,7 @@
     <script>
         async function carregarDados() {
             try {
-                const resposta = await fetch("horarios.json"); // Nome do JSON no GitHub
+                const resposta = await fetch("guacu.json"); // Nome do JSON no GitHub
                 const dados = await resposta.json();
                 
                 let html = `<h3>${dados.linha}</h3>`;
