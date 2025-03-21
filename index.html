@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horários de Ônibus</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f8f8f8; }
+        h2 { background-color: #6200ea; color: white; padding: 10px; }
+        h3 { color: #333; }
+        table { width: 90%; margin: 10px auto; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid black; padding: 6px; font-size: 14px; }
+        th { background-color: #ddd; }
+    </style>
+</head>
+<body>
+    <h2>Horários de Ônibus</h2>
+    <div id="tabela">Carregando...</div>
+
+    <script>
+        async function carregarDados() {
+            try {
+                const resposta = await fetch("horarios.json"); // Nome do JSON no GitHub
+                const dados = await resposta.json();
+                
+                let html = `<h3>${dados.linha}</h3>`;
+
+                for (let dia in dados.horarios) {
+                    html += `<h4>${dia.replace("_", " ").toUpperCase()}</h4>`;
+                    html += "<table><tr>";
+
+                    let horarios = dados.horarios[dia];
+                    horarios.forEach((hora, index) => {
+                        if (index % 4 === 0) html += "</tr><tr>"; // 4 horários por linha
+                        html += `<td>${hora}</td>`;
+                    });
+
+                    html += "</tr></table>";
+                }
+
+                document.getElementById("tabela").innerHTML = html;
+            } catch (error) {
+                document.getElementById("tabela").innerHTML = "<p>Erro ao carregar os horários.</p>";
+            }
+        }
+
+        carregarDados();
+    </script>
+</body>
+</html>
