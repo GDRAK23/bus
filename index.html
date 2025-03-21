@@ -20,21 +20,28 @@
     <script>
         async function carregarDados() {
             try {
-                const resposta = await fetch("guacu.json"); // Nome do JSON no GitHub
+                const resposta = await fetch("horarios.json"); // Certifique-se que o nome do JSON está certo
                 const dados = await resposta.json();
-                
+
                 let html = `<h3>${dados.linha}</h3>`;
 
                 for (let dia in dados.horarios) {
                     html += `<h4>${dia.replace("_", " ").toUpperCase()}</h4>`;
-                    html += "<table><tr>";
 
-                    let horarios = dados.horarios[dia];
-                    horarios.forEach((hora, index) => {
+                    html += `<h5>Saída da Rodoviária</h5><table><tr>`;
+                    let horariosRodoviaria = dados.horarios[dia].saida_rodoviaria;
+                    horariosRodoviaria.forEach((hora, index) => {
                         if (index % 4 === 0) html += "</tr><tr>"; // 4 horários por linha
                         html += `<td>${hora}</td>`;
                     });
+                    html += "</tr></table>";
 
+                    html += `<h5>Saída Guaçu</h5><table><tr>`;
+                    let horariosGuacu = dados.horarios[dia].saida_guacu;
+                    horariosGuacu.forEach((hora, index) => {
+                        if (index % 4 === 0) html += "</tr><tr>";
+                        html += `<td>${hora}</td>`;
+                    });
                     html += "</tr></table>";
                 }
 
